@@ -2,37 +2,29 @@ package nl.bongers;
 
 public class RomanNumeralsConverter {
 
-    public static String arabicToRoman(int number) {
+    private StringBuilder builder;
+    private int[] numbers = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+    private String[] romans = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
+    public String numberToRoman(int number) {
+        if(number >= 4000) return "Input exceeds maximum of 4000";
+
         int remaining = number;
-        StringBuilder result = new StringBuilder();
-        while(remaining >= 10) {
-            result.append("X");
-            remaining -= 10;
+        builder = new StringBuilder();
+
+        while(remaining > 0) {
+            for(int i = 0; i < numbers.length; i++) {
+                remaining = append(remaining, numbers[i], romans[i]);
+            }
         }
-        if(remaining == 9) {
-            result.append("IX");
-            remaining -= 9;
-        }
-        if(remaining >= 5) {
-            result.append("V");
-            remaining -= 5;
-        }
-        if(remaining == 4) {
-            result.append("IV");
-            remaining -= 4;
-        }
-        while(remaining >= 1) {
-            result.append("I");
-            remaining--;
-        }
-        return result.toString();
+        return builder.toString();
     }
 
-    private static int append(int arabic, int value, String romanDigits, StringBuilder builder) {
-        int result = arabic;
-        while (result >= value) {
-            builder.append(romanDigits);
-            result -= value;
+    private int append(int remaining, int number, String roman) {
+        int result = remaining;
+        while (result >= number) {
+            builder.append(roman);
+            result -= number;
         }
         return result;
     }

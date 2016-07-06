@@ -1,32 +1,57 @@
 package nl.bongers;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class RomanNumeralsConverterTest {
 
+    private RomanNumeralsConverter converter;
+
+    @Before
+    public void setUp() {
+        converter = new RomanNumeralsConverter();
+    }
+
     @Test
-    public void convertToRomanNumerals() {
-        assertEquals("convert 1 to I", "I", RomanNumeralsConverter.arabicToRoman(1));
-        assertEquals("convert 2 to II", "II", RomanNumeralsConverter.arabicToRoman(2));
-        assertEquals("convert 3 to III", "III", RomanNumeralsConverter.arabicToRoman(3));
-        assertEquals("convert 4 to IV", "IV", RomanNumeralsConverter.arabicToRoman(4));
-        assertEquals("convert 5 to V", "V", RomanNumeralsConverter.arabicToRoman(5));
-        assertEquals("convert 6 to VI", "VI", RomanNumeralsConverter.arabicToRoman(6));
-        assertEquals("convert 7 to VII", "VII", RomanNumeralsConverter.arabicToRoman(7));
-        assertEquals("convert 8 to VIII", "VIII", RomanNumeralsConverter.arabicToRoman(8));
-        assertEquals("convert 9 to IX", "IX", RomanNumeralsConverter.arabicToRoman(9));
-        assertEquals("convert 10 to X", "X", RomanNumeralsConverter.arabicToRoman(10));
-        assertEquals("convert 11 to XI", "XI", RomanNumeralsConverter.arabicToRoman(11));
-        assertEquals("convert 12 to XII", "XII", RomanNumeralsConverter.arabicToRoman(12));
-        assertEquals("convert 13 to XIII", "XIII", RomanNumeralsConverter.arabicToRoman(13));
-        assertEquals("convert 14 to XIV", "XIV", RomanNumeralsConverter.arabicToRoman(14));
-        assertEquals("convert 15 to XV", "XV", RomanNumeralsConverter.arabicToRoman(15));
-        assertEquals("convert 16 to XVI", "XVI", RomanNumeralsConverter.arabicToRoman(16));
-        assertEquals("convert 17 to XVII", "XVII", RomanNumeralsConverter.arabicToRoman(17));
-        assertEquals("convert 18 to XVIII", "XVIII", RomanNumeralsConverter.arabicToRoman(18));
-        assertEquals("convert 19 to XIX", "XIX", RomanNumeralsConverter.arabicToRoman(19));
-        assertEquals("convert 20 to XX", "XX", RomanNumeralsConverter.arabicToRoman(20));
+    public void convertSingleDigitToRomanNumeral() {
+        int[] singleDigits = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        String[] expectedRomans = {"I","II","III","IV","V","VI","VII","VIII","IX"};
+        for(int i = 0; i < singleDigits.length; i++) {
+            assertEquals(expectedRomans[i], converter.numberToRoman(singleDigits[i]));
+        }
+    }
+
+    @Test
+    public void convertDoubleDigitsToRomanNumeral() {
+        int[] doubleDigit = {10, 12, 14, 15, 19, 20, 30, 40, 44, 45, 50, 60, 70, 80, 90};
+        String[] expectedRomans = {"X","XII","XIV","XV","XIX","XX","XXX","XL","XLIV","XLV","L","LX","LXX","LXXX","XC"};
+        for(int i = 0; i < doubleDigit.length; i++) {
+            assertEquals(expectedRomans[i], converter.numberToRoman(doubleDigit[i]));
+        }
+    }
+
+    @Test
+    public void convertTripleDigitsToRomanNumeral() {
+        int[] tripleDigits = {100, 200, 300, 400, 500, 600, 700, 800, 900, 999};
+        String[] expectedRomans = {"C","CC","CCC","CD","D","DC","DCC","DCCC","CM","CMXCIX"};
+        for(int i = 0; i < tripleDigits.length; i++) {
+            assertEquals(expectedRomans[i], converter.numberToRoman(tripleDigits[i]));
+        }
+    }
+
+    @Test
+    public void convertQuadrupleDigitsToRomalNumeral() {
+        int[] quadrupleDigits = {1000, 2000, 3000, 3999};
+        String[] expectedRomans = {"M","MM","MMM","MMMCMXCIX"};
+        for(int i = 0; i < quadrupleDigits.length; i++) {
+            assertEquals(expectedRomans[i], converter.numberToRoman(quadrupleDigits[i]));
+        }
+    }
+
+    @Test
+    public void numberToHigh() {
+        assertEquals("Input exceeds maximum of 4000", converter.numberToRoman(4000));
     }
 }
